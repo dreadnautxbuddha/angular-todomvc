@@ -15,16 +15,25 @@ import { WriteInputAction } from 'src/app/store/actions/input.action';
   styleUrls: ['./todo-input.component.scss']
 })
 export class TodoInputComponent implements OnInit {
+  /**
+   * The current value of the todo-input.
+   *
+   * @type {String}
+   */
+  todoInput: string;
 
   /**
    * An input stream.
    *
    * @type {Observable<Input>}
    */
-  protected input$: Observable<Input> = this
+  input$: Observable<Input> = this
     .store
     .pipe(
       select(store => store.input),
+      // Similar to the TodoInputComponent::write method, we keep the synchronization
+      // between the model and the store by explicitly using its value on the model.
+      tap(input => this.todoInput = input.description),
     );
 
   constructor(protected store: Store<AppState>) { }
@@ -33,17 +42,14 @@ export class TodoInputComponent implements OnInit {
   }
 
   /**
-   * Writes the input to the store.
-   *
-   * @todo Optimize the change capturing. Maybe use a model that has an observable
-   * then do the same logic but via subscriptions?
-   *
-   * @param e
+   * Writes the input to the store. Instead of injecting the value to be passed to
+   * the store, we're specifically using the value of the input's model. This ensures
+   * that the model and the store is always in sync.
    *
    * @returns {void}
    */
-  write(e): void {
-    this.store.dispatch(WriteInputAction({ description: e.target.value }));
+  write(): void {
+    this.store.dispatch(WriteInputAction({ description: this.todoInput }));
   }
 
   /**

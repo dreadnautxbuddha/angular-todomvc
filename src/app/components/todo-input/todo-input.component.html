@@ -1,1 +1,13 @@
-<input *ngIf="(input$ | async) as val" type="text" (keyup)="write($event)" value="{{val.description}}">
+<!--
+By explicitly setting the "value" attribute on our input using the observable in the
+store, we get to be able to replay the changes to the store (via NgRx Store DevTools)
+and to actually see the changes with input values in real-time -- which cannot be
+achieved if we let Angular set its value.
+-->
+<input *ngIf="(input$ | async) val"
+    [(ngModel)]="todoInput"
+    type="text"
+    value="{{val}}"
+
+    (keyup)="write()"
+>
