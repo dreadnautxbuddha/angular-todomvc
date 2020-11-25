@@ -1,0 +1,6 @@
+<todo-input></todo-input>
+<ul>
+    <li *ngFor="let todo of todos$ | async">
+        <todo [metadata]="todo"></todo>
+    </li>
+</ul>

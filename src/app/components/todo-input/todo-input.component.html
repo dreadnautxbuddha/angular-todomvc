@@ -1,0 +1,1 @@
+<input *ngIf="(input$ | async) as val" type="text" (keyup)="write($event)" value="{{val.description}}">
