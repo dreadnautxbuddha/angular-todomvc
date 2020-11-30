@@ -55,11 +55,9 @@ export class TodoInputComponent implements OnInit {
   /**
    * Creates a new todo item
    *
-   * @param {Todo} todo
-   *
    * @returns {void}
    */
-  create(todo: Todo): void {
-    this.store.dispatch(CreateTodoAction(todo));
+  submit(): void {
+    this.store.dispatch(CreateTodoAction({ description: this.todoInput }));
   }
 }

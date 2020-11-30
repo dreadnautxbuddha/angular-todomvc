@@ -4,7 +4,7 @@ export interface Todo {
    *
    * @type {String}
    */
-  id: string | number;
+  id?: string | number;
 
   /**
    * A string that depicts something to be done.
