@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createReducer, on } from '@ngrx/store';
 
 import { Todo } from '../models/todo';
-import { CreateTodoAction, UpdateTodoAction } from '../actions/todo.actions';
+import { CreateTodoAction, MassDeleteTodoAction, UpdateTodoAction } from '../actions/todo.actions';
 
 export const TodoReducer = createReducer<Todo[]>(
   [],
@@ -24,5 +24,10 @@ export const TodoReducer = createReducer<Todo[]>(
 
       return todo;
     });
-  })
+  }),
+  on(MassDeleteTodoAction, (state, { todos }) => {
+    let ids = todos.map(todo => todo.id);
+
+    return state.filter(todo => ids.includes(todo.id) === false);
+  }),
 );

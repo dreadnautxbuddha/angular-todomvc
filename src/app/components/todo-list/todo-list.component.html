@@ -4,3 +4,7 @@
         <todo [metadata]="todo"></todo>
     </li>
 </ul>
+
+<ng-container *ngIf="(completedTodos$ | async) as completedTodos">
+    <button *ngIf="completedTodos.length" (click)="delete(completedTodos)">Clear Completed</button>
+</ng-container>
