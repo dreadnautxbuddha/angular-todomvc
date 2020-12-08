@@ -12,6 +12,13 @@ export interface Todo {
    * @type {String}
    */
   description: string;
+
+  /**
+   * Determines whether a todo item has already been completed.
+   *
+   * @type {Boolean}
+   */
+  isCompleted: boolean;
 }
 
 export interface ExistingTodo extends Todo {

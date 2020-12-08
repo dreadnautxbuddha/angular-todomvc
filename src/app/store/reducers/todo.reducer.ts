@@ -10,13 +10,19 @@ export const TodoReducer = createReducer<Todo[]>(
     return todo.hasOwnProperty('id')
       ? state.concat(todo)
       // When there's no id provided, we'll provide our own.
-      : state.concat({ description: todo.description, id: uuidv4() });
+      : state.concat({ ...todo, id: uuidv4() });
   }),
   on(UpdateTodoAction, (state, existingTodo) => {
-    return state.map(
-      todo => todo.id === existingTodo.id
-        ? { ...todo, description: existingTodo.description }
-        : todo
-    );
+    return state.map((todo) => {
+      if (todo.id === existingTodo.id) {
+        return {
+          ...todo,
+          description: existingTodo.description,
+          isCompleted: existingTodo.isCompleted,
+        };
+      }
+
+      return todo;
+    });
   })
 );

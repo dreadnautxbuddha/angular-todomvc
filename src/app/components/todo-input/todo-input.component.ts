@@ -58,6 +58,12 @@ export class TodoInputComponent implements OnInit {
    * @returns {void}
    */
   submit(): void {
-    this.store.dispatch(CreateTodoAction({ description: this.todoInput }));
+    this.store.dispatch(
+      CreateTodoAction({
+        description: this.todoInput,
+        // By default, all newly created todo items are not considered "complete"
+        isCompleted: false,
+      })
+    );
   }
 }
