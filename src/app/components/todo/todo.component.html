@@ -1,1 +1,3 @@
 <p><strong>Description:</strong> {{ todo.description }}</p>
+
+<input *ngIf="isEditing | async" [(ngModel)]="todoInput" type="text">

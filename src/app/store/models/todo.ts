@@ -13,3 +13,12 @@ export interface Todo {
    */
   description: string;
 }
+
+export interface ExistingTodo extends Todo {
+  /**
+   * Similar to the original TODO interface, but requires the id.
+   *
+   * @type {String}
+   */
+  id: string | number;
+}
