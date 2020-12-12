@@ -18,7 +18,10 @@
     </section>
     <footer class="footer" *ngIf="hasTodoItems$ | async">
         <span *ngIf="(incompleteTodos$ | async) as incompleteTodos" class="todo-count">
-            {{ incompleteTodos.length }} items left
+            {{ incompleteTodos.length }}
+            <ng-container *ngIf="incompleteTodos.length === 1"> item </ng-container>
+            <ng-container *ngIf="incompleteTodos.length > 1"> items </ng-container>
+            left
         </span>
         <ng-container *ngIf="(completedTodos$ | async) as completedTodos">
             <button *ngIf="completedTodos.length" class="clear-completed" (click)="delete(completedTodos)">Clear
