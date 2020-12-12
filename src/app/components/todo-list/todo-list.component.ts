@@ -27,10 +27,20 @@ export class TodoListComponent implements OnInit {
    * @type {Observable<Todo[]>}
    */
   completedTodos$: Observable<Todo[]> = this
-    .store
+    .todos$
     .pipe(
-      select(store => store.todos),
       map(todos => todos.filter(todo => todo.isCompleted))
+    );
+
+    /**
+   * A list of incomplete todo-items
+   *
+   * @type {Observable<Todo[]>}
+   */
+  incompleteTodos$: Observable<Todo[]> = this
+    .todos$
+    .pipe(
+      map(todos => todos.filter(todo => todo.isCompleted !== true))
     );
 
   constructor(protected store: Store<AppState>) { }
