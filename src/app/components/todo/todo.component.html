@@ -1,5 +1,5 @@
 <input type="checkbox" class="toggle" [(ngModel)]="isCompleted" (change)="toggleCompletion($event.target.checked)">
 <label>{{ todo.description }}</label>
-<button class="destroy"></button>
+<button class="destroy" (click)="delete()"></button>
 
 <!-- <input *ngIf="isEditing | async" [(ngModel)]="todoInput" type="text"> -->

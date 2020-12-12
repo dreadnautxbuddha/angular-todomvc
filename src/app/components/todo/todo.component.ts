@@ -4,7 +4,7 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 
 import { AppState } from '../../store/models/app-state';
 import { ExistingTodo, Todo } from '../../store/models/todo';
-import { UpdateTodoAction } from '../../store/actions/todo.actions';
+import { DeleteTodoAction, UpdateTodoAction } from '../../store/actions/todo.actions';
 
 @Component({
   selector: 'todo',
@@ -86,5 +86,14 @@ export class TodoComponent implements OnInit {
     this.store.dispatch(
       UpdateTodoAction({ ...this.todo, isCompleted: isCompleted })
     );
+  }
+
+  /**
+   * Delete the todo, and remove it from the list.
+   *
+   * @returns {void}
+   */
+  delete(): void {
+    this.store.dispatch(DeleteTodoAction(this.todo));
   }
 }
