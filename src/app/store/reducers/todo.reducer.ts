@@ -7,6 +7,11 @@ import { CreateTodoAction, DeleteTodoAction, MassDeleteTodoAction, MassToggleTod
 export const TodoReducer = createReducer<Todo[]>(
   [],
   on(CreateTodoAction, (state, todo) => {
+    if ((todo.description || '').trim().length === 0) {
+      // If the user has submitted an empty todo item, do nothing. We won't save this
+      return state;
+    }
+
     return todo.hasOwnProperty('id')
       ? state.concat(todo)
       // When there's no id provided, we'll provide our own.

@@ -1,9 +1,8 @@
-import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 
-import { Todo } from '../../store/models/todo';
 import { Input } from '../../store/models/input';
 import { AppState } from '../../store/models/app-state';
 import { CreateTodoAction } from '../../store/actions/todo.actions';
