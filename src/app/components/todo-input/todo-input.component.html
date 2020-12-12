@@ -8,6 +8,8 @@ achieved if we let Angular set its value.
     [(ngModel)]="todoInput"
     type="text"
     value="{{val}}"
+    placeholder="What needs to be done?"
+    class="new-todo"
 
     (keyup)="write()"
     (keyup.enter)="submit()"

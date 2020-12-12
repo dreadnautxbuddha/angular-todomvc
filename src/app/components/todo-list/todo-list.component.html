@@ -1,16 +1,30 @@
-<todo-input></todo-input>
-<ul>
-    <li *ngFor="let todo of todos$ | async">
-        <todo [metadata]="todo"></todo>
-    </li>
-</ul>
-
-<ng-container *ngIf="(completedTodos$ | async) as completedTodos">
-    <button *ngIf="completedTodos.length" (click)="delete(completedTodos)">Clear Completed</button>
-</ng-container>
-
-<ng-container *ngIf="shouldShowItemsLeft$ | async">
-    <p *ngIf="(incompleteTodos$ | async) as incompleteTodos">
-        {{ incompleteTodos.length }} items left
-    </p>
-</ng-container>
+<section class="todoapp">
+    <header class="header">
+        <h1>todos</h1>
+        <todo-input></todo-input>
+    </header>
+    <section class="main">
+        <ul class="todo-list">
+            <li *ngFor="let todo of todos$ | async" [ngClass]="{completed: todo.isCompleted}">
+                <div class="view">
+                    <todo [metadata]="todo"></todo>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <footer class="footer" *ngIf="shouldShowFooter$ | async">
+        <span *ngIf="(incompleteTodos$ | async) as incompleteTodos" class="todo-count">
+            {{ incompleteTodos.length }} items left
+        </span>
+        <ng-container *ngIf="(completedTodos$ | async) as completedTodos">
+            <button *ngIf="completedTodos.length" class="clear-completed" (click)="delete(completedTodos)">Clear
+                Completed
+            </button>
+        </ng-container>
+    </footer>
+</section>
+<footer class="info">
+    <p>Double-click to edit a todo</p>
+    <p>Created by <a href="https://github.com/dreadnautxbuddha">Peter Cortez</a></p>using
+    <a href="https://angular.io/">Angular2</a>
+</footer>

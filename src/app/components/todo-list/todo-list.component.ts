@@ -44,12 +44,13 @@ export class TodoListComponent implements OnInit {
     );
 
   /**
-   * An observable that emits a boolean value indicating whether the "items left"
-   * counter should be displayed or not.
+   * An observable that emits a boolean value indicating whether the footer,
+   * containing the "items left" info and "Clear completed" button should be
+   * displayed or not.
    *
    * @type {Observable<boolean>}
    */
-  shouldShowItemsLeft$: Observable<boolean> = this
+  shouldShowFooter$: Observable<boolean> = this
       .todos$
       .pipe(
         map(todos => todos.length > 0),
