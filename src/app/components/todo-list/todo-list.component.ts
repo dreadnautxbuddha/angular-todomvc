@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { AppState } from '../../store/models/app-state';
 import { ExistingTodo, Todo } from '../../store/models/todo';
@@ -32,7 +32,7 @@ export class TodoListComponent implements OnInit {
       map(todos => todos.filter(todo => todo.isCompleted))
     );
 
-    /**
+  /**
    * A list of incomplete todo-items
    *
    * @type {Observable<Todo[]>}
@@ -42,6 +42,23 @@ export class TodoListComponent implements OnInit {
     .pipe(
       map(todos => todos.filter(todo => todo.isCompleted !== true))
     );
+
+  /**
+   * An observable that emits a boolean value indicating whether the "items left"
+   * counter should be displayed or not.
+   *
+   * @type {Observable<boolean>}
+   */
+  shouldShowItemsLeft$: Observable<boolean> = this
+      .todos$
+      .pipe(
+        map(todos => todos.length > 0),
+        // By adding distinctUntilChanged(), we ensure that a boolean value is only
+        // emmitted when needed. Once when there's atleast one (1) todo item, and
+        // once when there's no todo item. Otherwise, this todo item will emit a
+        // value everytime a todo item is added or removed.
+        distinctUntilChanged(),
+      );
 
   constructor(protected store: Store<AppState>) { }
 

@@ -9,6 +9,8 @@
     <button *ngIf="completedTodos.length" (click)="delete(completedTodos)">Clear Completed</button>
 </ng-container>
 
-<ng-container *ngIf="(incompleteTodos$ | async) as incompleteTodos">
-    <p>{{ incompleteTodos.length }} items left</p>
+<ng-container *ngIf="shouldShowItemsLeft$ | async">
+    <p *ngIf="(incompleteTodos$ | async) as incompleteTodos">
+        {{ incompleteTodos.length }} items left
+    </p>
 </ng-container>
