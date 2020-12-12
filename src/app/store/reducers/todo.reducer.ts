@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createReducer, on } from '@ngrx/store';
 
 import { Todo } from '../models/todo';
-import { CreateTodoAction, DeleteTodoAction, MassDeleteTodoAction, UpdateTodoAction } from '../actions/todo.actions';
+import { CreateTodoAction, DeleteTodoAction, MassDeleteTodoAction, MassToggleTodoCompletionAction, UpdateTodoAction } from '../actions/todo.actions';
 
 export const TodoReducer = createReducer<Todo[]>(
   [],
@@ -32,5 +32,8 @@ export const TodoReducer = createReducer<Todo[]>(
   }),
   on(DeleteTodoAction, (state, existingTodo) => {
     return state.filter(todo => todo.id !== existingTodo.id);
+  }),
+  on(MassToggleTodoCompletionAction, (state, { isCompleted }) => {
+    return state.map(todo => ({ ...todo, isCompleted }));
   }),
 );

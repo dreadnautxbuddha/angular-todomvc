@@ -4,6 +4,10 @@
         <todo-input></todo-input>
     </header>
     <section class="main">
+        <ng-container *ngIf="hasTodoItems$ | async">
+            <input id="toggle-all" class="toggle-all" type="checkbox" (change)="toggleCompletion($event.target.checked)">
+            <label for="toggle-all">Mark all as complete</label>
+        </ng-container>
         <ul class="todo-list">
             <li *ngFor="let todo of todos$ | async" [ngClass]="{completed: todo.isCompleted}">
                 <div class="view">
@@ -12,7 +16,7 @@
             </li>
         </ul>
     </section>
-    <footer class="footer" *ngIf="shouldShowFooter$ | async">
+    <footer class="footer" *ngIf="hasTodoItems$ | async">
         <span *ngIf="(incompleteTodos$ | async) as incompleteTodos" class="todo-count">
             {{ incompleteTodos.length }} items left
         </span>

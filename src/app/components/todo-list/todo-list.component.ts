@@ -5,7 +5,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { AppState } from '../../store/models/app-state';
 import { ExistingTodo, Todo } from '../../store/models/todo';
-import { MassDeleteTodoAction } from '../../store/actions/todo.actions';
+import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo.actions';
 
 @Component({
   selector: 'todo-list',
@@ -44,13 +44,12 @@ export class TodoListComponent implements OnInit {
     );
 
   /**
-   * An observable that emits a boolean value indicating whether the footer,
-   * containing the "items left" info and "Clear completed" button should be
-   * displayed or not.
+   * An observable that emits a boolean value indicating whether there are todo-items
+   * on the list including both completed and non-completed items.
    *
    * @type {Observable<boolean>}
    */
-  shouldShowFooter$: Observable<boolean> = this
+  hasTodoItems$: Observable<boolean> = this
       .todos$
       .pipe(
         map(todos => todos.length > 0),
@@ -75,5 +74,16 @@ export class TodoListComponent implements OnInit {
    */
   delete(todos: ExistingTodo[]): void {
     this.store.dispatch(MassDeleteTodoAction({ todos }));
+  }
+
+  /**
+   * Marks all todos as either completed or not-completed.
+   *
+   * @param {Boolean} isCompleted
+   *
+   * @returns {void}
+   */
+  toggleCompletion(isCompleted): void {
+    this.store.dispatch(MassToggleTodoCompletionAction({ isCompleted }));
   }
 }
