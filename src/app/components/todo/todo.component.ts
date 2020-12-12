@@ -1,9 +1,8 @@
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
+import { ExistingTodo } from '../../store/models/todo';
 import { AppState } from '../../store/models/app-state';
-import { ExistingTodo, Todo } from '../../store/models/todo';
 import { DeleteTodoAction, UpdateTodoAction } from '../../store/actions/todo.actions';
 
 @Component({
@@ -34,14 +33,6 @@ export class TodoComponent implements OnInit {
    */
   isCompleted: boolean;
 
-  /**
-   * Determines whether a todo is being edited or not.
-   *
-   * @type {BehaviorSubject<boolean>}
-   */
-  protected _isEditing: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  isEditing: Observable<boolean> = this._isEditing.asObservable();
-
   constructor(protected store: Store<AppState>) { }
 
   ngOnInit(): void {
@@ -53,26 +44,25 @@ export class TodoComponent implements OnInit {
    * Gets triggered when a todo item gets clicked or tapped twice. The user will then
    * be able to edit the todo item.
    *
-   * @param {Todo} todo
-   *
    * @returns {void}
    */
-  @HostListener('dblclick', ['this.todo'])
-  onDoubleClick(todo: Todo): void {
-    this._isEditing.next(true);
+  edit(): void {
+    this.store.dispatch(UpdateTodoAction({ ...this.todo, isEditing: true }))
   }
 
   /**
    * Gets triggered when a user has finished editing a todo item.
    *
-   * @param {Todo} todo
-   *
    * @returns {void}
    */
-  @HostListener('keyup.enter', ['this.todo'])
-  onEnter(todo: ExistingTodo): void {
-    this.store.dispatch(UpdateTodoAction({...todo, description: this.todoInput}));
-    this._isEditing.next(false);
+  update(): void {
+    this.store.dispatch(
+      UpdateTodoAction({
+        ...this.todo,
+        description: this.todoInput,
+        isEditing: false
+       })
+    );
   }
 
   /**

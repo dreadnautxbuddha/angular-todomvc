@@ -17,18 +17,10 @@ export const TodoReducer = createReducer<Todo[]>(
       // When there's no id provided, we'll provide our own.
       : state.concat({ ...todo, id: uuidv4() });
   }),
-  on(UpdateTodoAction, (state, existingTodo) => {
-    return state.map((todo) => {
-      if (todo.id === existingTodo.id) {
-        return {
-          ...todo,
-          description: existingTodo.description,
-          isCompleted: existingTodo.isCompleted,
-        };
-      }
-
-      return todo;
-    });
+  on(UpdateTodoAction, (state, updatedTodo) => {
+    return state.map(
+      todo => todo.id === updatedTodo.id ? { id: todo.id, ...updatedTodo } : todo
+    );
   }),
   on(MassDeleteTodoAction, (state, { todos }) => {
     let ids = todos.map(todo => todo.id);

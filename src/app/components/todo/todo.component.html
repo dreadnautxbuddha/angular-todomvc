@@ -1,5 +1,6 @@
-<input type="checkbox" class="toggle" [(ngModel)]="isCompleted" (change)="toggleCompletion($event.target.checked)">
-<label>{{ todo.description }}</label>
-<button class="destroy" (click)="delete()"></button>
-
-<!-- <input *ngIf="isEditing | async" [(ngModel)]="todoInput" type="text"> -->
+<input *ngIf="todo.isEditing" [(ngModel)]="todoInput" type="text" class="edit" (keyup.enter)="update()">
+<div *ngIf="todo.isEditing === false" class="view" (dblclick)="edit($event)">
+    <input type="checkbox" class="toggle" [(ngModel)]="isCompleted" (change)="toggleCompletion($event.target.checked)">
+    <label>{{ todo.description }}</label>
+    <button class="destroy" (click)="delete()"></button>
+</div>

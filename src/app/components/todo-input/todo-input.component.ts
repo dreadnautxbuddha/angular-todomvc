@@ -62,6 +62,7 @@ export class TodoInputComponent implements OnInit {
         description: this.todoInput,
         // By default, all newly created todo items are not considered "complete"
         isCompleted: false,
+        isEditing: false,
       })
     );
     // After submitting the todo item, the input must then be cleared, preparing the

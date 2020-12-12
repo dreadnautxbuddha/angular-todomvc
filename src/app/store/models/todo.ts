@@ -19,6 +19,13 @@ export interface Todo {
    * @type {Boolean}
    */
   isCompleted: boolean;
+
+  /**
+   * Determines whether a todo item is currently being edited.
+   *
+   * @type {Boolean}
+   */
+  isEditing: boolean;
 }
 
 export interface ExistingTodo extends Todo {

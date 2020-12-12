@@ -9,10 +9,8 @@
             <label for="toggle-all">Mark all as complete</label>
         </ng-container>
         <ul class="todo-list">
-            <li *ngFor="let todo of todos$ | async" [ngClass]="{completed: todo.isCompleted}">
-                <div class="view">
-                    <todo [metadata]="todo"></todo>
-                </div>
+            <li *ngFor="let todo of todos$ | async" [ngClass]="{completed: todo.isCompleted, editing: todo.isEditing}">
+                <todo [metadata]="todo"></todo>
             </li>
         </ul>
     </section>
