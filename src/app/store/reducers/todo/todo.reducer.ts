@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { createReducer, on } from '@ngrx/store';
 
-import { Todo } from '../models/todo';
-import { CreateTodoAction, DeleteTodoAction, MassDeleteTodoAction, MassToggleTodoCompletionAction, UpdateTodoAction } from '../actions/todo/todo.actions';
+import { Todo } from '../../models/todo';
+import { CreateTodoAction, DeleteTodoAction, MassDeleteTodoAction, MassToggleTodoCompletionAction, UpdateTodoAction } from '../../actions/todo/todo.actions';
 
 export const TodoReducer = createReducer<Todo[]>(
   [],
