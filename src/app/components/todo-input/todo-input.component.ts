@@ -5,8 +5,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Input } from '../../store/models/input';
 import { AppState } from '../../store/models/app-state';
-import { CreateTodoAction } from '../../store/actions/todo.actions';
 import { WriteInputAction } from 'src/app/store/actions/input.action';
+import { CreateTodoAction } from '../../store/actions/todo/todo.actions';
 
 @Component({
   selector: 'todo-input',

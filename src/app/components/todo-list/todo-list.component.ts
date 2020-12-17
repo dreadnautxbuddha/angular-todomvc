@@ -5,7 +5,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { AppState } from '../../store/models/app-state';
 import { ExistingTodo, Todo } from '../../store/models/todo';
-import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo.actions';
+import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo/todo.actions';
 
 @Component({
   selector: 'todo-list',
