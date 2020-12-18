@@ -6,9 +6,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
-import { InputReducer } from './store/reducers/input.reducer';
 import { TodoComponent } from './components/todo/todo.component';
 import { TodoReducer } from './store/reducers/todo/todo.reducer';
+import { InputReducer } from './store/reducers/input/input.reducer';
 import { TodoInputComponent } from './components/todo-input/todo-input.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 
