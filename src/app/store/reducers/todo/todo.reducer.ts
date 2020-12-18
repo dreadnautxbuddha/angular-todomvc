@@ -4,22 +4,28 @@ import { createReducer, on } from '@ngrx/store';
 import { Todo } from '../../models/todo';
 import { CreateTodoAction, DeleteTodoAction, MassDeleteTodoAction, MassToggleTodoCompletionAction, UpdateTodoAction } from '../../actions/todo/todo.actions';
 
+export const initialState = [];
 export const TodoReducer = createReducer<Todo[]>(
-  [],
+  initialState,
   on(CreateTodoAction, (state, todo) => {
     if ((todo.description || '').trim().length === 0) {
       // If the user has submitted an empty todo item, do nothing. We won't save this
       return state;
+    } else if (todo.hasOwnProperty('id')) {
+      // The id that was supplied already exists. We won't allow this
+      return state.map(_todo => _todo.id).includes(todo.id)
+        ? state
+        : state.concat(todo);
     }
 
-    return todo.hasOwnProperty('id')
-      ? state.concat(todo)
-      // When there's no id provided, we'll provide our own.
-      : state.concat({ ...todo, id: uuidv4() });
+    // When there's no id provided, we'll provide our own.
+    return state.concat({ ...todo, id: uuidv4() });
   }),
-  on(UpdateTodoAction, (state, updatedTodo) => {
+  on(UpdateTodoAction, (state, { id, description, isCompleted, isEditing }) => {
     return state.map(
-      todo => todo.id === updatedTodo.id ? { id: todo.id, ...updatedTodo } : todo
+      // We're only going to update the todo item that matches the id that we have
+      // received. Otherwise, we'll update nothing.
+      todo => todo.id === id ? { id, description, isCompleted, isEditing } : todo
     );
   }),
   on(MassDeleteTodoAction, (state, { todos }) => {
