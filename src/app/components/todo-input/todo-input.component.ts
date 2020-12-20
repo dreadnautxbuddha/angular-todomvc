@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Input } from '../../store/models/input';
 import { AppState } from '../../store/models/app-state';
+import { input } from 'src/app/store/selectors/input/input.selector';
 import { WriteInputAction } from 'src/app/store/actions/input.action';
 import { CreateTodoAction } from '../../store/actions/todo/todo.actions';
 
@@ -29,7 +30,7 @@ export class TodoInputComponent implements OnInit {
   input$: Observable<Input> = this
     .store
     .pipe(
-      select(store => store.input),
+      select(input),
       // Similar to the TodoInputComponent::write method, we keep the synchronization
       // between the model and the store by explicitly using its value on the model.
       tap(input => this.todoInput = input.description),
