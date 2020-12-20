@@ -5,6 +5,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { AppState } from '../../store/models/app-state';
 import { ExistingTodo, Todo } from '../../store/models/todo';
+import { allTodos, completeTodos, incompleteTodos } from '../../store/selectors/todo/todo.selector';
 import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo/todo.actions';
 
 @Component({
@@ -19,29 +20,21 @@ export class TodoListComponent implements OnInit {
    *
    * @type {Observable<Todo[]>}
    */
-  todos$: Observable<Todo[]> = this.store.pipe(select(store => store.todos));
+  todos$: Observable<Todo[]> = this.store.pipe(select(allTodos));
 
   /**
    * A list of completed todo-items
    *
    * @type {Observable<Todo[]>}
    */
-  completedTodos$: Observable<Todo[]> = this
-    .todos$
-    .pipe(
-      map(todos => todos.filter(todo => todo.isCompleted))
-    );
+  completedTodos$: Observable<Todo[]> = this.store.pipe(select(completeTodos));
 
   /**
    * A list of incomplete todo-items
    *
    * @type {Observable<Todo[]>}
    */
-  incompleteTodos$: Observable<Todo[]> = this
-    .todos$
-    .pipe(
-      map(todos => todos.filter(todo => todo.isCompleted !== true))
-    );
+  incompleteTodos$: Observable<Todo[]> = this.store.pipe(select(incompleteTodos));
 
   /**
    * An observable that emits a boolean value indicating whether there are todo-items
@@ -49,9 +42,9 @@ export class TodoListComponent implements OnInit {
    *
    * @type {Observable<boolean>}
    */
-  hasTodoItems$: Observable<boolean> = this
-      .todos$
+  hasTodoItems$: Observable<boolean> = this.store
       .pipe(
+        select(allTodos),
         map(todos => todos.length > 0),
         // By adding distinctUntilChanged(), we ensure that a boolean value is only
         // emmitted when needed. Once when there's atleast one (1) todo item, and
