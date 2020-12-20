@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { createReducer, on } from '@ngrx/store';
 
-import { Todo } from '../../models/todo';
+import { ExistingTodo } from '../../models/todo';
 import { CreateTodoAction, DeleteTodoAction, MassDeleteTodoAction, MassToggleTodoCompletionAction, UpdateTodoAction } from '../../actions/todo/todo.actions';
 
 export const initialState = [];
-export const TodoReducer = createReducer<Todo[]>(
+export const TodoReducer = createReducer<ExistingTodo[]>(
   initialState,
   on(CreateTodoAction, (state, todo) => {
     if ((todo.description || '').trim().length === 0) {
@@ -15,7 +15,7 @@ export const TodoReducer = createReducer<Todo[]>(
       // The id that was supplied already exists. We won't allow this
       return state.map(_todo => _todo.id).includes(todo.id)
         ? state
-        : state.concat(todo);
+        : state.concat(todo as ExistingTodo);
     }
 
     // When there's no id provided, we'll provide our own.

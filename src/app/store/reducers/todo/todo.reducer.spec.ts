@@ -164,6 +164,35 @@ describe('TODO Reducers', () => {
 
       expect(state).toEqual(_initialState);
     });
+
+    it('should not update anything if the todo item does not have an id', () => {
+      const _initialState = [
+        {
+          id: '1db438d2-e81a-4ef8-9251-a56bbace694e',
+          description: 'My First Todo Item',
+          isCompleted: false,
+          isEditing: false,
+        },
+      ];
+      const action = UpdateTodoAction({
+        id: null,
+        description: 'My Updated First Todo Item Description',
+        isCompleted: true,
+        isEditing: false,
+      });
+
+      const state = TodoReducer(_initialState, action);
+
+      expect(state)
+        .toEqual([
+          {
+            id: '1db438d2-e81a-4ef8-9251-a56bbace694e',
+            description: 'My First Todo Item',
+            isCompleted: false,
+            isEditing: false,
+          },
+        ]);
+    });
   });
 
   describe('On MassDeleteTodoAction', () => {
