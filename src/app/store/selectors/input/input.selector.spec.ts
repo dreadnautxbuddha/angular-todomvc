@@ -1,7 +1,7 @@
 import { input } from './input.selector';
 import { Input } from '../../models/input';
 
-fdescribe('Input selector', () => {
+describe('Input selector', () => {
   describe('On input', () => {
     it('should return the input', () => {
       const initialState: Input = {

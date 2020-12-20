@@ -1,4 +1,4 @@
-import { Todo } from './todo';
+import { ExistingTodo } from './todo';
 import { Input } from './input';
 
 export interface AppState {
@@ -12,7 +12,7 @@ export interface AppState {
   /**
    * A list of the todo-items that the user has provided.
    *
-   * @type {Todo[]}
+   * @type {ExistingTodo[]}
    */
-  readonly todos: Todo[];
+  readonly todos: ExistingTodo[];
 }

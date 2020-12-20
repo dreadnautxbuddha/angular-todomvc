@@ -15,7 +15,7 @@ export class TodoComponent implements OnInit {
   /**
    * The todo object containing its metadata
    *
-   * @type {Todo}
+   * @type {ExistingTodo}
    */
   @Input('metadata') todo: ExistingTodo;
 
