@@ -3,8 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
+import { ExistingTodo } from '../../store/models/todo';
 import { AppState } from '../../store/models/app-state';
-import { ExistingTodo, Todo } from '../../store/models/todo';
 import { allTodos, completeTodos, incompleteTodos } from '../../store/selectors/todo/todo.selector';
 import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo/todo.actions';
 
@@ -18,23 +18,23 @@ export class TodoListComponent implements OnInit {
   /**
    * A list of the todo-items that the user has provided.
    *
-   * @type {Observable<Todo[]>}
+   * @type {Observable<ExistingTodo[]>}
    */
-  todos$: Observable<Todo[]> = this.store.pipe(select(allTodos));
+  todos$: Observable<ExistingTodo[]> = this.store.pipe(select(allTodos));
 
   /**
    * A list of completed todo-items
    *
-   * @type {Observable<Todo[]>}
+   * @type {Observable<ExistingTodo[]>}
    */
-  completedTodos$: Observable<Todo[]> = this.store.pipe(select(completeTodos));
+  completedTodos$: Observable<ExistingTodo[]> = this.store.pipe(select(completeTodos));
 
   /**
    * A list of incomplete todo-items
    *
-   * @type {Observable<Todo[]>}
+   * @type {Observable<ExistingTodo[]>}
    */
-  incompleteTodos$: Observable<Todo[]> = this.store.pipe(select(incompleteTodos));
+  incompleteTodos$: Observable<ExistingTodo[]> = this.store.pipe(select(incompleteTodos));
 
   /**
    * An observable that emits a boolean value indicating whether there are todo-items
