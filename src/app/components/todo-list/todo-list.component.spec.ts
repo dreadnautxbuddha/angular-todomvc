@@ -345,7 +345,7 @@ describe('TodoListComponent', () => {
 
             const text = footer.nativeElement.textContent;
 
-            expect(text).toEqual('0 left');
+            expect(text).toEqual('0 items left');
           });
         });
 

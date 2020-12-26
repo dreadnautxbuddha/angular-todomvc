@@ -49,15 +49,15 @@ export class TodoListComponent implements OnInit {
    * @type {Observable<boolean>}
    */
   hasTodoItems$: Observable<boolean> = this.store
-      .pipe(
-        select(allTodos),
-        map(todos => todos.length > 0),
-        // By adding distinctUntilChanged(), we ensure that a boolean value is only
-        // emmitted when needed. Once when there's atleast one (1) todo item, and
-        // once when there's no todo item. Otherwise, this todo item will emit a
-        // value everytime a todo item is added or removed.
-        distinctUntilChanged(),
-      );
+    .pipe(
+      select(allTodos),
+      map(todos => todos.length > 0),
+      // By adding distinctUntilChanged(), we ensure that a boolean value is only
+      // emmitted when needed. Once when there's atleast one (1) todo item, and once
+      // when there's no todo item. Otherwise, this todo item will emit a value
+      // everytime a todo item is added or removed.
+      distinctUntilChanged(),
+    );
 
   constructor(protected store: Store<AppState>) { }
 
