@@ -20,21 +20,27 @@ export class TodoListComponent implements OnInit {
    *
    * @type {Observable<ExistingTodo[]>}
    */
-  todos$: Observable<ExistingTodo[]> = this.store.pipe(select(allTodos));
+  todos$: Observable<ExistingTodo[]> = this.store.pipe(
+    select(allTodos),
+  );
 
   /**
    * A list of completed todo-items
    *
    * @type {Observable<ExistingTodo[]>}
    */
-  completedTodos$: Observable<ExistingTodo[]> = this.store.pipe(select(completeTodos));
+  completedTodos$: Observable<ExistingTodo[]> = this.store.pipe(
+    select(completeTodos),
+  );
 
   /**
    * A list of incomplete todo-items
    *
    * @type {Observable<ExistingTodo[]>}
    */
-  incompleteTodos$: Observable<ExistingTodo[]> = this.store.pipe(select(incompleteTodos));
+  incompleteTodos$: Observable<ExistingTodo[]> = this.store.pipe(
+    select(incompleteTodos),
+  );
 
   /**
    * An observable that emits a boolean value indicating whether there are todo-items

@@ -15,21 +15,18 @@
         </ul>
     </section>
     <footer class="footer" *ngIf="hasTodoItems$ | async">
-        <span *ngIf="(incompleteTodos$ | async) as incompleteTodos" class="todo-count">
-            {{ incompleteTodos.length }}
-            <ng-container *ngIf="incompleteTodos.length === 1"> item </ng-container>
-            <ng-container *ngIf="incompleteTodos.length > 1"> items </ng-container>
-            left
-        </span>
+        <ng-container *ngIf="(incompleteTodos$ | async) as incompleteTodos" [ngSwitch]="incompleteTodos.length">
+            <span *ngSwitchCase="0" class="todo-count">0 left</span>
+            <span *ngSwitchCase="1" class="todo-count">1 item left</span>
+            <span *ngSwitchDefault class="todo-count">{{ incompleteTodos.length }} items left</span>
+        </ng-container>
         <ng-container *ngIf="(completedTodos$ | async) as completedTodos">
-            <button *ngIf="completedTodos.length" class="clear-completed" (click)="delete(completedTodos)">Clear
-                Completed
-            </button>
+            <button *ngIf="completedTodos.length" class="clear-completed" (click)="delete(completedTodos)">Clear Completed</button>
         </ng-container>
     </footer>
 </section>
 <footer class="info">
     <p>Double-click to edit a todo</p>
-    <p>Created by <a href="https://github.com/dreadnautxbuddha">Peter Cortez</a></p>using
-    <a href="https://angular.io/">Angular2</a>
+    <p>Created by <a href="https://github.com/dreadnautxbuddha">Peter Cortez</a></p>
+    <p>using <a href="https://angular.io/">Angular2</a></p>
 </footer>
