@@ -1,13 +1,17 @@
 {
   "name": "todomvc-angular",
-  "version": "0.0.0",
+  "homepage": "https://dreadnautxbuddha.github.io/todomvc-angular/",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --base-href ./",
+    "deploy": "npm run build && npm run ghp:clean && npm run ghp:deploy",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "ghp:clean": "./node_modules/gh-pages/bin/gh-pages-clean.js",
+    "ghp:deploy": "gh-pages -d dist"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +24,7 @@
     "@angular/platform-browser-dynamic": "~11.0.1",
     "@angular/router": "~11.0.1",
     "@ngrx/store": "^10.0.1",
+    "gh-pages": "^3.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "uuid": "^8.3.1",
