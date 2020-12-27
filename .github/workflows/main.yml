@@ -1,0 +1,48 @@
+on: push
+jobs:
+  build:
+    name: Angular Unit Test
+    strategy:
+      fail-fast: true
+      # The matrix contains different configuration variables that are available for
+      # each run of the steps.
+      matrix:
+        nodejs: [12.x]
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      # The checkout action pulls the source code from our repository (identified by
+      # the current commit SHA) ensuring that the tests are run on the specific
+      # commit that was pushed.
+      - name: Checkout $GITHUB_SHA
+        uses: actions/checkout@v2
+      # To speed up the installation process, we cache the contents of node_modules.
+      # We will only going install the npm packages via `npm install` if the contents
+      # of the package-lock.json has changed.
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      # The setup-node action sets up the NodeJS environment.
+      - name: Setup NodeJS ${{ matrix.nodejs }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.nodejs }}
+          check-latest: true
+      # This installs the appropriate modules required by our application
+      - name: Install NodeJS packages
+        run: |
+          npm install
+      # Finally, unit tests! This ensures that this commit didn't break anything in
+      # our application.
+      - name: Run Angular Unit Tests
+        run: |
+          npm run test
+      # This builds a production-ready version of our application
+      - name: Deploy to GitHub Pages
+        run: |
+          npm run deploy
