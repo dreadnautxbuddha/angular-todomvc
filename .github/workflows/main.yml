@@ -41,7 +41,7 @@ jobs:
       # our application.
       - name: Run Angular Unit Tests
         run: |
-          npm run test
+          npm run test:no-watch
       # This builds a production-ready version of our application
       - name: Deploy to GitHub Pages
         run: |
