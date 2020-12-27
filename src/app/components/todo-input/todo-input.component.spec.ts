@@ -70,7 +70,7 @@ describe('TodoInputComponent', () => {
 
       const placeholder = _input.nativeElement.placeholder;
 
-      expect(placeholder).toEqual('What needs to be done?');
+      expect(placeholder).toEqual('What needs to be done? hehehe');
     });
 
     it('has a .new-todo class', () => {
