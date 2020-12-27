@@ -19,7 +19,7 @@ jobs:
       # The checkout action pulls the source code from our repository (identified by
       # the current commit SHA) ensuring that the tests are run on the specific
       # commit that was pushed.
-      - name: Checkout $GITHUB_SHA
+      - name: Checkout ${{ GITHUB_SHA }}
         uses: actions/checkout@v2
       # To speed up the installation process, we cache the contents of node_modules.
       # We will only going install the npm packages via `npm install` if the contents
