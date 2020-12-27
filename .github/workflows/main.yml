@@ -1,7 +1,11 @@
-on: push
+on:
+  push:
+    branches:
+      # This workflow shall only be run on the master branch
+      - master
 jobs:
-  build:
-    name: Angular Unit Test
+  gh-pages-deloyment:
+    name: GitHub Pages Deployment
     strategy:
       fail-fast: true
       # The matrix contains different configuration variables that are available for
@@ -25,8 +29,6 @@ jobs:
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
       # The setup-node action sets up the NodeJS environment.
       - name: Setup NodeJS ${{ matrix.nodejs }}
         uses: actions/setup-node@v2
@@ -44,5 +46,7 @@ jobs:
           npm run test:no-watch
       # This builds a production-ready version of our application
       - name: Deploy to GitHub Pages
-        run: |
-          npm run deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
