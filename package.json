@@ -1,12 +1,13 @@
 {
-  "name": "todomvc-angular",
+  "name": "angular-todomvc",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --base-href https://dreadnautxbuddha.github.io/todomvc-angular/",
+    "build": "ng build",
     "test": "ng test",
-    "deploy": "npm run build && ngh --dir=dist/todomvc-angular"
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
