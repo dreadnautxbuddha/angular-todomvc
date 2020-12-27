@@ -44,6 +44,11 @@ jobs:
       - name: Run Angular Unit Tests
         run: |
           npm run test:no-watch
+      # This builds a production-ready version of our application, to be used in our
+      # GitHub Page
+      - name: Build Application
+        run: |
+          npm run build
       # This builds a production-ready version of our application
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
