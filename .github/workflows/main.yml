@@ -29,6 +29,8 @@ jobs:
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       # The setup-node action sets up the NodeJS environment.
       - name: Setup NodeJS ${{ matrix.nodejs }}
         uses: actions/setup-node@v2
