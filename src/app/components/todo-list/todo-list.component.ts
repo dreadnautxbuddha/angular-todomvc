@@ -1,10 +1,13 @@
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 import { Todo } from '../../store/models/todo';
 import { AppState } from '../../store/models/app-state';
+import { SetFilterAction } from '../../store/actions/filter.actions';
+import { DisplayableFilter, Filter } from '../../store/models/filter';
+import { filter } from '../../store/selectors/selectors/filter.selector';
 import { allTodos, completeTodos, incompleteTodos } from '../../store/selectors/todo/todo.selector';
 import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo.actions';
 
@@ -43,6 +46,53 @@ export class TodoListComponent implements OnInit {
   );
 
   /**
+   * A static array of filters that users can use in filtering the todo-items that
+   * are displayed
+   *
+   * @type {DisplayableFilter[]}
+   */
+  displayedFilters$: Observable<DisplayableFilter[]> = this.store
+    .pipe(
+      select(filter),
+      map(({ completion }) => {
+        return [
+          { label: 'All', completion: null },
+          { label: 'Active', completion: 'incomplete' },
+          { label: 'Completed', completion: 'complete' },
+        ].map(
+          (filter): DisplayableFilter => {
+            return {
+              ...filter,
+              isFilterActive: filter.completion === completion
+            } as DisplayableFilter;
+          }
+        );
+      })
+    );
+
+  /**
+   * Returns a filtered set of todo-items. When "Active" is selected, this will only
+   * return todo items that are not yet completed. When "Completed" is selected, this
+   * will return todo items that are already marked as completed. When no filters are
+   * set (or "All"), everything will be returned.
+   *
+   * @type {Observable<Todo[]>}
+   */
+  filteredTodos$: Observable<Todo[]> = this.store.pipe(
+    select(filter),
+    switchMap(({ completion }) => {
+      switch (completion) {
+        case 'complete':
+          return this.completedTodos$;
+        case 'incomplete':
+          return this.incompleteTodos$;
+        default:
+          return this.todos$;
+      }
+    })
+  );
+
+  /**
    * An observable that emits a boolean value indicating whether there are todo-items
    * on the list including both completed and non-completed items.
    *
@@ -73,6 +123,17 @@ export class TodoListComponent implements OnInit {
    */
   delete(todos: Todo[]): void {
     this.store.dispatch(MassDeleteTodoAction({ todos }));
+  }
+
+  /**
+   * Filters the displayed todo-items.
+   *
+   * @param {Filter[K]} completion
+   *
+   * @returns {void}
+   */
+  filter<K extends keyof Filter>(completion: Filter[K]): void {
+    this.store.dispatch(SetFilterAction({ completion }));
   }
 
   /**

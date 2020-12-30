@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { TodoComponent } from './components/todo/todo.component';
 import { TodoReducer } from './store/reducers/todo/todo.reducer';
 import { InputReducer } from './store/reducers/input/input.reducer';
+import { FilterReducer } from './store/reducers/filter/filter.reducer';
 import { TodoInputComponent } from './components/todo-input/todo-input.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 
@@ -25,6 +26,7 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
     StoreModule.forRoot({
       todos: TodoReducer,
       input: InputReducer,
+      filter: FilterReducer,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

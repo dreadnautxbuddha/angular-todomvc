@@ -10,7 +10,7 @@ import {
   MassToggleTodoCompletionAction,
  } from '../../actions/todo.actions';
 
-export const initialState = [];
+export const initialState: Todo[] = [];
 export const TodoReducer = createReducer<Todo[]>(
   initialState,
   on(CreateTodoAction, (state, todo) => {

@@ -1,5 +1,6 @@
 import { Todo } from './todo';
 import { Input } from './input';
+import { Filter } from './filter';
 
 export interface AppState {
   /**
@@ -15,4 +16,11 @@ export interface AppState {
    * @type {Todo[]}
    */
   readonly todos: Todo[];
+
+  /**
+   * A filter used in determining which todo items to be displayed in the todo-list.
+   *
+   * @type {Filter}
+   */
+  readonly filter: Filter;
 }

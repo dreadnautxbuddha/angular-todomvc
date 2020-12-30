@@ -9,7 +9,7 @@
             <label for="toggle-all">Mark all as complete</label>
         </ng-container>
         <ul class="todo-list">
-            <li *ngFor="let todo of todos$ | async" [ngClass]="{completed: todo.isCompleted, editing: todo.isEditing}">
+            <li *ngFor="let todo of filteredTodos$ | async" [ngClass]="{completed: todo.isCompleted, editing: todo.isEditing}">
                 <todo [metadata]="todo"></todo>
             </li>
         </ul>
@@ -19,6 +19,15 @@
             <span *ngSwitchCase="1" class="todo-count">1 item left</span>
             <span *ngSwitchDefault class="todo-count">{{ incompleteTodos.length }} items left</span>
         </ng-container>
+        <ul class="filters" *ngIf="(displayedFilters$ | async) as displayedFilters">
+            <li *ngFor="let displayedFilter of displayedFilters">
+                <a
+                    href="#"
+                    [ngClass]="{selected: displayedFilter.isFilterActive}"
+                    (click)="filter(displayedFilter.completion)"
+                >{{ displayedFilter.label }}</a>
+            </li>
+        </ul>
         <ng-container *ngIf="(completedTodos$ | async) as completedTodos">
             <button *ngIf="completedTodos.length" class="clear-completed" (click)="delete(completedTodos)">Clear Completed</button>
         </ng-container>

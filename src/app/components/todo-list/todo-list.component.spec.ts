@@ -7,10 +7,14 @@ import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { TodoComponent } from '../todo/todo.component';
 import { TodoListComponent } from './todo-list.component';
+import { SetFilterAction } from '../../store/actions/filter.actions';
 import { InputReducer } from '../../store/reducers/input/input.reducer';
 import { TodoInputComponent } from '../todo-input/todo-input.component';
+import { filter } from '../../store/selectors/selectors/filter.selector';
+import { FilterReducer } from '../../store/reducers/filter/filter.reducer';
 import { findAllByCss, findAllByDirective, findByCss } from 'testing/fixtures/dom-crawler';
 import { initialState as initialInputState } from '../../store/reducers/input/input.reducer';
+import { initialState as initialFilterState } from '../../store/reducers/filter/filter.reducer';
 import { allTodos, completeTodos, incompleteTodos } from '../../store/selectors/todo/todo.selector';
 import { initialState as initialTodoState, TodoReducer } from '../../store/reducers/todo/todo.reducer';
 import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo.actions';
@@ -31,6 +35,7 @@ describe('TodoListComponent', () => {
         StoreModule.forRoot({
           todos: TodoReducer,
           input: InputReducer,
+          filter: FilterReducer,
         }),
       ],
       providers: [
@@ -38,6 +43,7 @@ describe('TodoListComponent', () => {
           initialState: {
             todos: initialTodoState,
             input: initialInputState,
+            filter: initialFilterState,
           }
         }),
       ]
@@ -56,9 +62,9 @@ describe('TodoListComponent', () => {
     it('should have a class of .todoapp', () => {
       // By calling only findByCss instead of findAllByCss, we only get the first
       // <section /> element.
-      const mainSection = findByCss(fixture, 'section').nativeElement;
+      const todoApp = findByCss(fixture, 'section').nativeElement;
 
-      expect(mainSection).toHaveClass('todoapp');
+      expect(todoApp).toHaveClass('todoapp');
     });
 
     describe('<header />', () => {
@@ -85,9 +91,9 @@ describe('TodoListComponent', () => {
 
     describe('main <section />', () => {
       it('should have a class of .main', () => {
-        const section = findByCss(fixture, '.todoapp section').nativeElement;
+        const mainSection = findByCss(fixture, '.todoapp section').nativeElement;
 
-        expect(section).toHaveClass('main');
+        expect(mainSection).toHaveClass('main');
       });
 
       describe('Mark All As Complete Checkbox', () => {
@@ -251,6 +257,180 @@ describe('TodoListComponent', () => {
           const todoItems = findAllByDirective(fixture, TodoComponent);
 
           expect(todoItems).toHaveSize(3);
+        });
+      });
+
+      describe('Filters', () => {
+        beforeEach(inject([MockStore], (store: MockStore) => {
+          let _completeTodos = [
+            {
+              id: '2e9ee414-063e-4b42-9505-695acd9d93af',
+              description: 'My First Complete Todo item',
+              isCompleted: true,
+              isEditing: false
+            },
+            {
+              id: '9b49c986-6c5e-4bc8-8c52-5e1ff74945e0',
+              description: 'My Second Complete Todo item',
+              isCompleted: true,
+              isEditing: false
+            },
+          ];
+          let _incompleteTodos = [
+            {
+              id: '6ec1ed77-dee4-4c66-bef7-cebcaaa56e28',
+              description: 'My First Incomplete Todo item',
+              isCompleted: false,
+              isEditing: false
+            },
+            {
+              id: '06d1c89f-ed17-4043-85b1-87c94d7e27bf',
+              description: 'My First Incomplete Todo item',
+              isCompleted: false,
+              isEditing: false
+            },
+            {
+              id: '5f821e02-86f8-425b-baad-ce85848a8440',
+              description: 'My First Incomplete Todo item',
+              isCompleted: false,
+              isEditing: false
+            },
+          ];
+          allTodos.setResult([..._completeTodos, ..._incompleteTodos]);
+          completeTodos.setResult(_completeTodos);
+          incompleteTodos.setResult(_incompleteTodos);
+
+          store.refreshState();
+          fixture.detectChanges();
+        }));
+
+        describe('when no filter is set (or "All" is set)', () => {
+          beforeEach(inject([MockStore], (store: MockStore) => {
+            filter.setResult({ completion: null });
+
+            store.refreshState();
+            fixture.detectChanges();
+          }));
+
+          it('"All" should have a class of .selected while the others do not', () => {
+            findAllByCss(fixture, 'ul.filters li a').forEach(filter => {
+              let el = filter.nativeElement;
+
+              if (el.textContent.match('All')) {
+                expect(el).toHaveClass('selected');
+              } else {
+                expect(el).not.toHaveClass('selected');
+              }
+            });
+          });
+
+          it('All todo items must be displayed', () => {
+            let completedTodoItems = findAllByDirective(fixture, TodoComponent);
+
+            expect(completedTodoItems).toHaveSize(5);
+          });
+
+          it(
+            'should dispatch SetFilterAction with null as its completion argument',
+            inject([MockStore], (store: MockStore) => {
+              const all = findAllByCss(fixture, 'ul.filters li a').filter(filter => {
+                return filter.nativeElement.textContent.match('All');
+              })[0];
+              const _store = spyOn(store, 'dispatch').and.callThrough();
+
+              all.triggerEventHandler('click', null);
+
+              expect(_store).toHaveBeenCalledWith(
+                SetFilterAction({ completion: null })
+              );
+            })
+          );
+        });
+
+        describe('when "Active" filter is set', () => {
+          beforeEach(inject([MockStore], (store: MockStore) => {
+            filter.setResult({ completion: 'incomplete' });
+
+            store.refreshState();
+            fixture.detectChanges();
+          }));
+
+          it('"Active" should have a class of .selected while the others do not', () => {
+            findAllByCss(fixture, 'ul.filters li a').forEach(filter => {
+              let el = filter.nativeElement;
+
+              if (el.textContent.match('Active')) {
+                expect(el).toHaveClass('selected');
+              } else {
+                expect(el).not.toHaveClass('selected');
+              }
+            });
+          });
+
+          it('Only incomplete todo items must be displayed', () => {
+            let completedTodoItems = findAllByDirective(fixture, TodoComponent);
+
+            expect(completedTodoItems).toHaveSize(3);
+          });
+
+          it(
+            'should dispatch SetFilterAction with "incomplete" as its completion argument',
+            inject([MockStore], (store: MockStore) => {
+              const all = findAllByCss(fixture, 'ul.filters li a').filter(filter => {
+                return filter.nativeElement.textContent.match('Active');
+              })[0];
+              const _store = spyOn(store, 'dispatch').and.callThrough();
+
+              all.triggerEventHandler('click', null);
+
+              expect(_store).toHaveBeenCalledWith(
+                SetFilterAction({ completion: 'incomplete' })
+              );
+            })
+          );
+        });
+
+        describe('when "Completed" filter is set', () => {
+          beforeEach(inject([MockStore], (store: MockStore) => {
+            filter.setResult({ completion: 'complete' });
+
+            store.refreshState();
+            fixture.detectChanges();
+          }));
+
+          it('"Completed" should have a class of .selected while the others do not', () => {
+            findAllByCss(fixture, 'ul.filters li a').forEach(filter => {
+              let el = filter.nativeElement;
+
+              if (el.textContent.match('Completed')) {
+                expect(el).toHaveClass('selected');
+              } else {
+                expect(el).not.toHaveClass('selected');
+              }
+            });
+          });
+
+          it('Only complete todo items must be displayed', () => {
+            let completedTodoItems = findAllByDirective(fixture, TodoComponent);
+
+            expect(completedTodoItems).toHaveSize(2);
+          });
+
+          it(
+            'should dispatch SetFilterAction with "complete" as its completion argument',
+            inject([MockStore], (store: MockStore) => {
+              const all = findAllByCss(fixture, 'ul.filters li a').filter(filter => {
+                return filter.nativeElement.textContent.match('Completed');
+              })[0];
+              const _store = spyOn(store, 'dispatch').and.callThrough();
+
+              all.triggerEventHandler('click', null);
+
+              expect(_store).toHaveBeenCalledWith(
+                SetFilterAction({ completion: 'complete' })
+              );
+            })
+          );
         });
       });
     });
