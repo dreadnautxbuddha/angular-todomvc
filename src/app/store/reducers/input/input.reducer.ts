@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { Input } from '../../models/input';
-import { WriteInputAction } from '../../actions/input.action';
+import { UpdateInputAction } from '../../actions/input.action';
 
 export const initialState: Input = { description: null };
 
 export const InputReducer = createReducer<Input>(
   initialState,
-  on(WriteInputAction, (state, input) => input)
+  on(UpdateInputAction, (state, input) => input)
 );

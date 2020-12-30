@@ -1,13 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { Filter } from '../../models/filter';
-import { SetFilterAction } from '../../actions/filter.actions';
+import { UpdateFilterAction } from '../../actions/filter.actions';
 
 export const initialState: Filter = { completion: null };
 
 export const FilterReducer = createReducer<Filter>(
   initialState,
-  on(SetFilterAction, (state, { completion }) => {
+  on(UpdateFilterAction, (state, { completion }) => {
     return { completion };
   }),
 );

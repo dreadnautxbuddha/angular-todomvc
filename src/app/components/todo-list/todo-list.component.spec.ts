@@ -7,7 +7,7 @@ import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { TodoComponent } from '../todo/todo.component';
 import { TodoListComponent } from './todo-list.component';
-import { SetFilterAction } from '../../store/actions/filter.actions';
+import { UpdateFilterAction } from '../../store/actions/filter.actions';
 import { InputReducer } from '../../store/reducers/input/input.reducer';
 import { TodoInputComponent } from '../todo-input/todo-input.component';
 import { filter } from '../../store/selectors/selectors/filter.selector';
@@ -331,7 +331,7 @@ describe('TodoListComponent', () => {
           });
 
           it(
-            'should dispatch SetFilterAction with null as its completion argument',
+            'should dispatch UpdateFilterAction with null as its completion argument',
             inject([MockStore], (store: MockStore) => {
               const all = findAllByCss(fixture, 'ul.filters li a').filter(filter => {
                 return filter.nativeElement.textContent.match('All');
@@ -341,7 +341,7 @@ describe('TodoListComponent', () => {
               all.triggerEventHandler('click', null);
 
               expect(_store).toHaveBeenCalledWith(
-                SetFilterAction({ completion: null })
+                UpdateFilterAction({ completion: null })
               );
             })
           );
@@ -374,7 +374,7 @@ describe('TodoListComponent', () => {
           });
 
           it(
-            'should dispatch SetFilterAction with "incomplete" as its completion argument',
+            'should dispatch UpdateFilterAction with "incomplete" as its completion argument',
             inject([MockStore], (store: MockStore) => {
               const all = findAllByCss(fixture, 'ul.filters li a').filter(filter => {
                 return filter.nativeElement.textContent.match('Active');
@@ -384,7 +384,7 @@ describe('TodoListComponent', () => {
               all.triggerEventHandler('click', null);
 
               expect(_store).toHaveBeenCalledWith(
-                SetFilterAction({ completion: 'incomplete' })
+                UpdateFilterAction({ completion: 'incomplete' })
               );
             })
           );
@@ -417,7 +417,7 @@ describe('TodoListComponent', () => {
           });
 
           it(
-            'should dispatch SetFilterAction with "complete" as its completion argument',
+            'should dispatch UpdateFilterAction with "complete" as its completion argument',
             inject([MockStore], (store: MockStore) => {
               const all = findAllByCss(fixture, 'ul.filters li a').filter(filter => {
                 return filter.nativeElement.textContent.match('Completed');
@@ -427,7 +427,7 @@ describe('TodoListComponent', () => {
               all.triggerEventHandler('click', null);
 
               expect(_store).toHaveBeenCalledWith(
-                SetFilterAction({ completion: 'complete' })
+                UpdateFilterAction({ completion: 'complete' })
               );
             })
           );

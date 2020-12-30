@@ -2,7 +2,7 @@ import { StoreModule } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
 
 import { initialState, FilterReducer } from './filter.reducer';
-import { SetFilterAction } from '../../actions/filter.actions';
+import { UpdateFilterAction } from '../../actions/filter.actions';
 
 describe('Filter Reducer', () => {
   beforeEach(() => {
@@ -25,9 +25,9 @@ describe('Filter Reducer', () => {
     });
   });
 
-  describe('On SetFilterAction', () => {
+  describe('On UpdateFilterAction', () => {
     it('should set the filter', () => {
-      const action = SetFilterAction({
+      const action = UpdateFilterAction({
         completion: 'complete'
       });
 

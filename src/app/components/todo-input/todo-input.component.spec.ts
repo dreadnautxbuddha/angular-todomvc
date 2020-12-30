@@ -7,8 +7,8 @@ import { inject, ComponentFixture, TestBed } from '@angular/core/testing';
 import { findByCss } from 'testing/fixtures/dom-crawler';
 import { TodoInputComponent } from './todo-input.component';
 import { input } from '../../store/selectors/input/input.selector';
-import { WriteInputAction } from '../../store/actions/input.action';
 import { CreateTodoAction } from '../../store/actions/todo.actions';
+import { UpdateInputAction } from '../../store/actions/input.action';
 import { initialState as initialInputState, TodoReducer } from '../../store/reducers/todo/todo.reducer';
 import { initialState as initialTodoState, InputReducer } from '../../store/reducers/input/input.reducer';
 
@@ -81,7 +81,7 @@ describe('TodoInputComponent', () => {
 
     describe('when keys are pressed', () => {
       it(
-        'should dispatch WriteInputAction',
+        'should dispatch UpdateInputAction',
         inject([MockStore], (store: MockStore) => {
           const _input = findByCss(fixture, 'input');
           const _store = spyOn(store, 'dispatch').and.callThrough();
@@ -90,7 +90,7 @@ describe('TodoInputComponent', () => {
             .triggerEventHandler('keyup', null);
 
           expect(_store).toHaveBeenCalledWith(
-            WriteInputAction({ description: 'An unfinished todo inpu' })
+            UpdateInputAction({ description: 'An unfinished todo inpu' })
           );
         })
       );
@@ -117,7 +117,7 @@ describe('TodoInputComponent', () => {
       );
 
       it(
-        'should dispatch WriteInputAction that deletes the current input',
+        'should dispatch UpdateInputAction that deletes the current input',
         inject([MockStore], (store: MockStore) => {
           const _input = findByCss(fixture, 'input');
           const _store = spyOn(store, 'dispatch').and.callThrough();
@@ -126,7 +126,7 @@ describe('TodoInputComponent', () => {
             .triggerEventHandler('keyup.enter', null);
 
           expect(_store).toHaveBeenCalledWith(
-            WriteInputAction({ description: null })
+            UpdateInputAction({ description: null })
           );
         })
       );

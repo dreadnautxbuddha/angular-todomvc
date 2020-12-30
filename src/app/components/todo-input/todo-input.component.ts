@@ -7,7 +7,7 @@ import { Input } from '../../store/models/input';
 import { AppState } from '../../store/models/app-state';
 import { CreateTodoAction } from '../../store/actions/todo.actions';
 import { input } from 'src/app/store/selectors/input/input.selector';
-import { WriteInputAction } from 'src/app/store/actions/input.action';
+import { UpdateInputAction } from 'src/app/store/actions/input.action';
 
 @Component({
   selector: 'todo-input',
@@ -49,7 +49,7 @@ export class TodoInputComponent implements OnInit {
    * @returns {void}
    */
   write(): void {
-    this.store.dispatch(WriteInputAction({ description: this.todoInput }));
+    this.store.dispatch(UpdateInputAction({ description: this.todoInput }));
   }
 
   /**
@@ -68,6 +68,6 @@ export class TodoInputComponent implements OnInit {
     );
     // After submitting the todo item, the input must then be cleared, preparing the
     // user to type in another.
-    this.store.dispatch(WriteInputAction({ description: null }));
+    this.store.dispatch(UpdateInputAction({ description: null }));
   }
 }

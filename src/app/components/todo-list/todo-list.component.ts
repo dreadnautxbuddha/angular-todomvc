@@ -5,8 +5,8 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Todo } from '../../store/models/todo';
 import { AppState } from '../../store/models/app-state';
-import { SetFilterAction } from '../../store/actions/filter.actions';
 import { DisplayableFilter, Filter } from '../../store/models/filter';
+import { UpdateFilterAction } from '../../store/actions/filter.actions';
 import { filter } from '../../store/selectors/selectors/filter.selector';
 import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo.actions';
 import { allTodos, completeTodos, filteredTodos, incompleteTodos } from '../../store/selectors/todo/todo.selector';
@@ -123,7 +123,7 @@ export class TodoListComponent implements OnInit {
    * @returns {void}
    */
   filter<K extends keyof Filter>(completion: Filter[K]): void {
-    this.store.dispatch(SetFilterAction({ completion }));
+    this.store.dispatch(UpdateFilterAction({ completion }));
   }
 
   /**
