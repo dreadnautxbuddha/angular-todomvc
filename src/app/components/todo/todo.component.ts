@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ExistingTodo } from '../../store/models/todo';
+import { Todo } from '../../store/models/todo';
 import { AppState } from '../../store/models/app-state';
 import { DeleteTodoAction, UpdateTodoAction } from '../../store/actions/todo.actions';
 
@@ -15,9 +15,9 @@ export class TodoComponent implements OnInit {
   /**
    * The todo object containing its metadata
    *
-   * @type {ExistingTodo}
+   * @type {Todo}
    */
-  @Input('metadata') todo: ExistingTodo;
+  @Input('metadata') todo: Todo;
 
   /**
    * The value that the user has set to replace the description of the current todo.

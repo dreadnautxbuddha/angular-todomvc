@@ -1,11 +1,4 @@
-export interface Todo {
-  /**
-   * The unique identifier for a to-do item.
-   *
-   * @type {String}
-   */
-  id?: string | number;
-
+interface _Todo {
   /**
    * A string that depicts something to be done.
    *
@@ -28,11 +21,21 @@ export interface Todo {
   isEditing: boolean;
 }
 
-export interface ExistingTodo extends Todo {
+export interface Todo extends _Todo {
   /**
-   * Similar to the original TODO interface, but requires the id.
+   * Similar to a new todo item, but requires the id.
    *
    * @type {String}
    */
   id: string | number;
+}
+
+
+export interface NewTodo extends _Todo {
+  /**
+   * The unique identifier for a to-do item.
+   *
+   * @type {String}
+   */
+  id?: string | number;
 }
