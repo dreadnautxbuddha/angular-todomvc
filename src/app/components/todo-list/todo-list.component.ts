@@ -1,15 +1,15 @@
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Todo } from '../../store/models/todo';
 import { AppState } from '../../store/models/app-state';
 import { SetFilterAction } from '../../store/actions/filter.actions';
 import { DisplayableFilter, Filter } from '../../store/models/filter';
 import { filter } from '../../store/selectors/selectors/filter.selector';
-import { allTodos, completeTodos, incompleteTodos } from '../../store/selectors/todo/todo.selector';
 import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo.actions';
+import { allTodos, completeTodos, filteredTodos, incompleteTodos } from '../../store/selectors/todo/todo.selector';
 
 @Component({
   selector: 'todo-list',
@@ -79,17 +79,7 @@ export class TodoListComponent implements OnInit {
    * @type {Observable<Todo[]>}
    */
   filteredTodos$: Observable<Todo[]> = this.store.pipe(
-    select(filter),
-    switchMap(({ completion }) => {
-      switch (completion) {
-        case 'complete':
-          return this.completedTodos$;
-        case 'incomplete':
-          return this.incompleteTodos$;
-        default:
-          return this.todos$;
-      }
-    })
+    select(filteredTodos),
   );
 
   /**
