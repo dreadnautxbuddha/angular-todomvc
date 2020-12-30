@@ -13,7 +13,7 @@ import { findAllByCss, findAllByDirective, findByCss } from 'testing/fixtures/do
 import { initialState as initialInputState } from '../../store/reducers/input/input.reducer';
 import { allTodos, completeTodos, incompleteTodos } from '../../store/selectors/todo/todo.selector';
 import { initialState as initialTodoState, TodoReducer } from '../../store/reducers/todo/todo.reducer';
-import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo/todo.actions';
+import { MassDeleteTodoAction, MassToggleTodoCompletionAction } from '../../store/actions/todo.actions';
 
 describe('TodoListComponent', () => {
   let fixture: ComponentFixture<TodoListComponent>;

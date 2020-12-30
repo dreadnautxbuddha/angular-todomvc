@@ -5,7 +5,7 @@ import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { TodoComponent } from './todo.component';
 import { findAllByCss, findByCss } from 'testing/fixtures/dom-crawler';
-import { DeleteTodoAction, UpdateTodoAction } from '../../store/actions/todo/todo.actions';
+import { DeleteTodoAction, UpdateTodoAction } from '../../store/actions/todo.actions';
 import { initialState as initialTodoState, TodoReducer } from '../../store/reducers/todo/todo.reducer';
 import { initialState as initialInputState, InputReducer } from '../../store/reducers/input/input.reducer';
 

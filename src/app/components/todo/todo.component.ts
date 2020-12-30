@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { ExistingTodo } from '../../store/models/todo';
 import { AppState } from '../../store/models/app-state';
-import { DeleteTodoAction, UpdateTodoAction } from '../../store/actions/todo/todo.actions';
+import { DeleteTodoAction, UpdateTodoAction } from '../../store/actions/todo.actions';
 
 @Component({
   selector: 'todo',

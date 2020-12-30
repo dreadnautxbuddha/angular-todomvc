@@ -1,7 +1,13 @@
 import { StoreModule } from '@ngrx/store';
 import { TestBed} from '@angular/core/testing';
 
-import { CreateTodoAction, DeleteTodoAction, MassDeleteTodoAction, MassToggleTodoCompletionAction, UpdateTodoAction } from '../../actions/todo/todo.actions';
+import {
+  CreateTodoAction,
+  DeleteTodoAction,
+  UpdateTodoAction,
+  MassDeleteTodoAction,
+  MassToggleTodoCompletionAction,
+} from '../../actions/todo.actions';
 import { initialState, TodoReducer } from '../../reducers/todo/todo.reducer';
 
 describe('TODO Reducers', () => {

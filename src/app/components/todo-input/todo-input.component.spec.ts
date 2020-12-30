@@ -8,7 +8,7 @@ import { findByCss } from 'testing/fixtures/dom-crawler';
 import { TodoInputComponent } from './todo-input.component';
 import { input } from '../../store/selectors/input/input.selector';
 import { WriteInputAction } from '../../store/actions/input.action';
-import { CreateTodoAction } from '../../store/actions/todo/todo.actions';
+import { CreateTodoAction } from '../../store/actions/todo.actions';
 import { initialState as initialInputState, TodoReducer } from '../../store/reducers/todo/todo.reducer';
 import { initialState as initialTodoState, InputReducer } from '../../store/reducers/input/input.reducer';
 
