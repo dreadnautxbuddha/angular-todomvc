@@ -14,6 +14,7 @@ import { InputReducer } from './store/reducers/input/input.reducer';
 import { FilterReducer } from './store/reducers/filter/filter.reducer';
 import { TodoInputComponent } from './components/todo-input/todo-input.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
+import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
     TodoInputComponent,
     TodoComponent,
     TodoListComponent,
+    AutofocusDirective,
   ],
   imports: [
     FormsModule,
