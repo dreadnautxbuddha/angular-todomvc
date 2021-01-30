@@ -66,6 +66,15 @@ export class TodoComponent implements OnInit {
   }
 
   /**
+   * Cancels all changes to the todo item.
+   *
+   * @returns {void}
+   */
+  cancel(): void {
+    this.store.dispatch(UpdateTodoAction({...this.todo, isEditing: false}));
+  }
+
+  /**
    * Marks the todo as either completed or not-completed.
    *
    * @param {Boolean} isCompleted

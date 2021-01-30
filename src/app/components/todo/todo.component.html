@@ -1,4 +1,4 @@
-<input [autofocus] *ngIf="todo.isEditing" [(ngModel)]="todoInput" type="text" class="edit" (keyup.enter)="update()">
+<input [autofocus] *ngIf="todo.isEditing" [(ngModel)]="todoInput" type="text" class="edit" (keyup.enter)="update()" (keyup.escape)="cancel()">
 <div *ngIf="todo.isEditing === false" class="view" (dblclick)="edit($event)">
     <input type="checkbox" class="toggle" [(ngModel)]="isCompleted" (change)="toggleCompletion($event.target.checked)">
     <label>{{ todo.description }}</label>

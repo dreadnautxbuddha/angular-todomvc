@@ -96,6 +96,24 @@ describe('TodoComponent', () => {
           })
         );
       });
+
+      describe('when escape key is pressed', () => {
+        it(
+          'should cancel all changes to todo',
+          inject([MockStore], (store: MockStore) => {
+            const input = findByCss(fixture, '.edit');
+            const _store = spyOn(store, 'dispatch').and.callThrough();
+
+            component.todoInput = 'My New Todo Description';
+            input.triggerEventHandler('keyup.escape', null);
+
+            expect(_store)
+              .toHaveBeenCalledWith(
+                UpdateTodoAction({ ...component.todo, isEditing: false })
+              );
+          })
+        );
+      });
     });
 
     describe('when todo.isEditing is false', () => {
