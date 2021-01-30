@@ -1,10 +1,10 @@
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { CreateTodoAction } from '../../actions/todo.actions';
 import { UpdateInputAction } from '../../actions/input.action';
+import { CreateTodoAction, DeleteTodoAction, UpdateTodoAction } from '../../actions/todo.actions';
 
 @Injectable()
 export class TodoEffects {
@@ -18,6 +18,17 @@ export class TodoEffects {
     () => this.actions$.pipe(
       ofType(CreateTodoAction),
       switchMap(action => of(UpdateInputAction({ description: null }))),
+    )
+  );
+
+  deleteTodoWhenDescriptionIsEmpty$ = createEffect(
+    () => this.actions$.pipe(
+      ofType(UpdateTodoAction),
+      switchMap(
+        action => (action.description || '').trim().length === 0
+          ? of(DeleteTodoAction(action))
+          : EMPTY
+      )
     )
   );
 
