@@ -115,21 +115,6 @@ describe('TodoInputComponent', () => {
           );
         })
       );
-
-      it(
-        'should dispatch UpdateInputAction that deletes the current input',
-        inject([MockStore], (store: MockStore) => {
-          const _input = findByCss(fixture, 'input');
-          const _store = spyOn(store, 'dispatch').and.callThrough();
-
-          _input
-            .triggerEventHandler('keyup.enter', null);
-
-          expect(_store).toHaveBeenCalledWith(
-            UpdateInputAction({ description: null })
-          );
-        })
-      );
     });
   });
 });

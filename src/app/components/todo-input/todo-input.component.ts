@@ -66,8 +66,5 @@ export class TodoInputComponent implements OnInit {
         isEditing: false,
       })
     );
-    // After submitting the todo item, the input must then be cleared, preparing the
-    // user to type in another.
-    this.store.dispatch(UpdateInputAction({ description: null }));
   }
 }
