@@ -97,6 +97,29 @@ describe('TodoComponent', () => {
         );
       });
 
+      describe('when focus is lost', () => {
+        it(
+          'should dispatch UpdateTodoAction',
+          inject([MockStore], (store: MockStore) => {
+            const input = findByCss(fixture, '.edit');
+            const _store = spyOn(store, 'dispatch').and.callThrough();
+
+            component.todoInput = 'My New Todo Description';
+            input.triggerEventHandler('blur', null);
+
+            expect(_store)
+              .toHaveBeenCalledWith(
+                UpdateTodoAction({
+                  id: '7f3c76b2-47b5-4dc6-8219-9a146ab170a5',
+                  description: 'My New Todo Description',
+                  isCompleted: false,
+                  isEditing: false,
+                })
+              );
+          })
+        );
+      });
+
       describe('when escape key is pressed', () => {
         it(
           'should cancel all changes to todo',
