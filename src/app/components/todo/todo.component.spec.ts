@@ -5,6 +5,7 @@ import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { TodoComponent } from './todo.component';
 import { findAllByCss, findByCss } from 'testing/fixtures/dom-crawler';
+import { AutofocusDirective } from '../../directives/autofocus/autofocus.directive';
 import { DeleteTodoAction, UpdateTodoAction } from '../../store/actions/todo.actions';
 import { initialState as initialTodoState, TodoReducer } from '../../store/reducers/todo/todo.reducer';
 import { initialState as initialInputState, InputReducer } from '../../store/reducers/input/input.reducer';
@@ -24,6 +25,7 @@ describe('TodoComponent', () => {
       ],
       declarations: [
         TodoComponent,
+        AutofocusDirective,
       ],
       providers: [
         provideMockStore({
@@ -56,6 +58,14 @@ describe('TodoComponent', () => {
       beforeEach(() => {
         component.todo.isEditing = true;
         fixture.detectChanges();
+      });
+
+      it('should focus immediately on input', () => {
+        let input = findByCss(fixture, 'input');
+
+        let focusedInput = findByCss(fixture, ':focus');
+
+        expect(input.nativeElement).toBe(focusedInput.nativeElement);
       });
 
       it('should be displayed', () => {
