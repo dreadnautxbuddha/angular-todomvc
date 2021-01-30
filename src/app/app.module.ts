@@ -12,9 +12,10 @@ import { TodoComponent } from './components/todo/todo.component';
 import { TodoReducer } from './store/reducers/todo/todo.reducer';
 import { InputReducer } from './store/reducers/input/input.reducer';
 import { FilterReducer } from './store/reducers/filter/filter.reducer';
-import { TodoInputComponent } from './components/todo-input/todo-input.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
+import { TodoInputComponent } from './components/todo-input/todo-input.component';
+import { LocalStorageSyncReducer } from './store/reducers/localstorage-sync/localstorage-sync.reducer';
 
 @NgModule({
   declarations: [
@@ -27,11 +28,18 @@ import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
   imports: [
     FormsModule,
     BrowserModule,
-    StoreModule.forRoot({
-      todos: TodoReducer,
-      input: InputReducer,
-      filter: FilterReducer,
-    }),
+    StoreModule.forRoot(
+      {
+        todos: TodoReducer,
+        input: InputReducer,
+        filter: FilterReducer,
+      },
+      {
+        metaReducers: [
+          LocalStorageSyncReducer,
+        ],
+      }
+    ),
     EffectsModule.forRoot([
       TodoEffects,
     ]),
